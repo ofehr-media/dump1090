@@ -1,3 +1,8 @@
+Basically same as original dump1090, but updated for the program to produce a valie GeoJson file and to used Mapbox instead of Google Maps.
+Files edited: dump1090.c (aircraftsToJson) and gmap.html
+
+Following is the original READEME file
+
 Dump1090 README
 ===
 
