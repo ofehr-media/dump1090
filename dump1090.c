@@ -2132,14 +2132,16 @@ int decodeHexMessage(struct client *c) {
     return 0;
 }
 
-/* Return a description of planes in json. */
+/* Return a description of planes in geojson. */
 char *aircraftsToJson(int *len) {
     struct aircraft *a = Modes.aircrafts;
     int buflen = 1024; /* The initial buffer is incremented as needed. */
     char *buf = malloc(buflen), *p = buf;
     int l;
-
-    l = snprintf(p,buflen,"[\n");
+	char start_json[] = "{\"type\": \"FeatureCollection\",\"features\": [\n";
+	char end_json[] = "]}\n";
+    //l = snprintf(p,buflen,"[\n");
+    l = snprintf(p,buflen,start_json);
     p += l; buflen -= l;
     while(a) {
         int altitude = a->altitude, speed = a->speed;
@@ -2149,15 +2151,16 @@ char *aircraftsToJson(int *len) {
             altitude /= 3.2828;
             speed *= 1.852;
         }
-
         if (a->lat != 0 && a->lon != 0) {
+			
             l = snprintf(p,buflen,
-                "{\"hex\":\"%s\", \"flight\":\"%s\", \"lat\":%f, "
-                "\"lon\":%f, \"altitude\":%d, \"track\":%d, "
-                "\"speed\":%d},\n",
-                a->hexaddr, a->flight, a->lat, a->lon, a->altitude, a->track,
+                "{\"type\": \"Feature\","
+                "\"geometry\": {	\"type\": \"Point\",\"coordinates\": [%f,%f]},"
+                "\"properties\": {\"hex\":\"%s\",\"flight\":\"%s\",\"altitude\":%d,"
+                "\"track\":%d,\"speed\":%d}},\n",
+                a->lon, a->lat, a->hexaddr, a->flight, a->altitude, a->track,
                 a->speed);
-            p += l; buflen -= l;
+            p += l;  buflen -= l;
             /* Resize if needed. */
             if (buflen < 256) {
                 int used = p-buf;
@@ -2174,12 +2177,14 @@ char *aircraftsToJson(int *len) {
         p--;
         buflen++;
     }
-    l = snprintf(p,buflen,"]\n");
+    //l = snprintf(p,buflen,"]\n");
+    l = snprintf(p,buflen,end_json);
     p += l; buflen -= l;
 
     *len = p-buf;
     return buf;
 }
+
 
 #define MODES_CONTENT_TYPE_HTML "text/html;charset=utf-8"
 #define MODES_CONTENT_TYPE_JSON "application/json;charset=utf-8"
