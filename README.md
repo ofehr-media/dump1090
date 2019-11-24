@@ -6,7 +6,7 @@ Files added: /webroot/*
 
 Files edited: dump1090.c (aircraftsToJson)
 
-Following is the original READEME file
+Following is the original READ.ME file
 
 Dump1090 README
 ===
