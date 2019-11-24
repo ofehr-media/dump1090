@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+
+	<script src="https://api.tiles.mapbox.com/mapbox-gl-js/v1.5.0/mapbox-gl.js"></script>
+	<link href="https://api.tiles.mapbox.com/mapbox-gl-js/v1.5.0/mapbox-gl.css" rel="stylesheet" />
+	<script src="https://d3js.org/d3.v5.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<link href="/css/main.css" rel="stylesheet" />
+    <script src="/js/custom.js"></script>
+    <title>Planes Around Herrliberg</title>
+  </head>
+  <body onload="initialize();">
+  <div class="page" id="page">
+	<div class="map_area" id="map_area">
+		<div id="map_canvas"></div>
+	</div>
+	<div class="info_area" id="info_area">
+			<h2>Planes Detail Info</h2>
+			<div id="timestamp" style="align: center"></div>
+			<p id="plane_detail">To see plane details, move the mouse cursor over the symbol of the plane.</p>
+			<div><strong>Hex:</strong> <span id="hex"></span></div>
+			<div><strong>Flight:</strong> <span id="flight"></span></div>
+			<div><strong>Altitude:</strong> <span id="altitude"></span></div>
+			<p></p>
+			<div id="notice">
+			<h3>Data Acquisition</h3>
+			<p>The receiver antenna location picks up signals in southern and westerly direction mostly
+			and does badly in easterly and nothernly directions. The maximum distance is around 70km, but
+			sometimes it loses track because of geography and built-up areas in between.</p>
+			<h3>Data Quality</h3>
+			<p>After a summary comparision with <a href="https://flightaware.com">Flightaware</a> data,
+			the receiver and application seem to be doing a quite good job.
+			Sometimes the receiver sees planes that are not on Flightaware, and sometimes it misses
+			a plane, but overall it's comparable data quality.</p>
+			<h3>Data Retention and Storage</h3>
+			<p>The application currently does not retain data in an archive, it's real-time display only,
+			with no archived data.</p>
+			<h3>Acknowledgments</h3>
+			<p>While this site is our work, it relies on work done by others who chose to make their
+			work available. A list of sources can be found <a href="/acknowledgements.txt">here</a>.</p>
+			<p>The code for this app can be found on <a href="https://github.com/ofehr-media/dump1090">Github</a></p>
+			</div>
+	</div>
+  </div>
+
+  </body>
+</html>
