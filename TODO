@@ -1,5 +1,4 @@
 TODO
 
-* Re-Implement original dynamic update features of html file
-* Currently compiles on Ubuntu (19.10) but not (yet) on FreeBSD
-
+* Re-Implement original dynamic update features of html file (done)
+* Currently compiles on Ubuntu (19.10) but not (yet) on FreeBSD (open)
