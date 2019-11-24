@@ -62,8 +62,10 @@
 #define MODES_LONG_MSG_BYTES (112/8)
 #define MODES_SHORT_MSG_BYTES (56/8)
 
-#define MODES_ICAO_CACHE_LEN 1024 /* Power of two required. */
-#define MODES_ICAO_CACHE_TTL 60   /* Time to live of cached addresses. */
+//#define MODES_ICAO_CACHE_LEN 1024 /* Power of two required. */
+//#define MODES_ICAO_CACHE_TTL 60   /* Time to live of cached addresses. */
+#define MODES_ICAO_CACHE_LEN 32768 /* Power of two required. */
+#define MODES_ICAO_CACHE_TTL 600   /* Time to live of cached addresses. */
 #define MODES_UNIT_FEET 0
 #define MODES_UNIT_METERS 1
 
@@ -2135,11 +2137,12 @@ int decodeHexMessage(struct client *c) {
 /* Return a description of planes in geojson. */
 char *aircraftsToJson(int *len) {
     struct aircraft *a = Modes.aircrafts;
-    int buflen = 1024; /* The initial buffer is incremented as needed. */
+    int buflen = 8192; /* The initial buffer is incremented as needed. */
     char *buf = malloc(buflen), *p = buf;
     int l;
-	char start_json[] = "{\"type\": \"FeatureCollection\",\"features\": [\n";
-	char end_json[] = "]}\n";
+	const char start_json[] = "{\"type\": \"FeatureCollection\",\"features\": [\n";
+	const char end_json[] = "]}\n";
+
     //l = snprintf(p,buflen,"[\n");
     l = snprintf(p,buflen,start_json);
     p += l; buflen -= l;
@@ -2155,7 +2158,7 @@ char *aircraftsToJson(int *len) {
 			
             l = snprintf(p,buflen,
                 "{\"type\": \"Feature\","
-                "\"geometry\": {	\"type\": \"Point\",\"coordinates\": [%f,%f]},"
+                "\"geometry\": {\"type\": \"Point\",\"coordinates\": [%f,%f]},"
                 "\"properties\": {\"hex\":\"%s\",\"flight\":\"%s\",\"altitude\":%d,"
                 "\"track\":%d,\"speed\":%d}},\n",
                 a->lon, a->lat, a->hexaddr, a->flight, a->altitude, a->track,
@@ -2164,7 +2167,7 @@ char *aircraftsToJson(int *len) {
             /* Resize if needed. */
             if (buflen < 256) {
                 int used = p-buf;
-                buflen += 1024; /* Our increment. */
+                buflen += 2048; /* Our increment. */
                 buf = realloc(buf,used+buflen);
                 p = buf+used;
             }
@@ -2184,7 +2187,6 @@ char *aircraftsToJson(int *len) {
     *len = p-buf;
     return buf;
 }
-
 
 #define MODES_CONTENT_TYPE_HTML "text/html;charset=utf-8"
 #define MODES_CONTENT_TYPE_JSON "application/json;charset=utf-8"
@@ -2231,15 +2233,15 @@ int handleHTTPRequest(struct client *c) {
     /* Select the content to send, we have just two so far:
      * "/" -> Our google map application.
      * "/data.json" -> Our ajax request to update planes. */
-    if (strstr(url, "/data.json")) {
+    if (strstr(url, "/data/planes.json")) {
         content = aircraftsToJson(&clen);
         ctype = MODES_CONTENT_TYPE_JSON;
     } else {
         struct stat sbuf;
         int fd = -1;
 
-        if (stat("gmap.html",&sbuf) != -1 &&
-            (fd = open("gmap.html",O_RDONLY)) != -1)
+        if (stat("index.yaws",&sbuf) != -1 &&
+            (fd = open("index.yaws",O_RDONLY)) != -1)
         {
             content = malloc(sbuf.st_size);
             if (read(fd,content,sbuf.st_size) == -1) {
@@ -2637,5 +2639,3 @@ int main(int argc, char **argv) {
     rtlsdr_close(Modes.dev);
     return 0;
 }
-
-
