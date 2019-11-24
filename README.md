@@ -1,6 +1,9 @@
 Some more changes to the original dump1090.c code, but updated for the program to produce a valid GeoJson (/data/planes.json) file and uses Mapbox instead of Google Maps.
+
 Files deleted: gmap.html
+
 Files added: /webroot/*
+
 Files edited: dump1090.c (aircraftsToJson)
 
 Following is the original READEME file
