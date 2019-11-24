@@ -1,0 +1,6 @@
+Dump1090: Forked and adapted from https://github.com/antirez/dump1090
+Mapbox Javascript Code is based on code example at Mapbox:
+https://docs.mapbox.com/help/tutorials/create-interactive-hover-effects-with-mapbox-gl-js/
+
+Antenna Icon: http://free-icon-rainbow.com/analog-antenna-free-icon-1/
+Airplane: http://free-icon-rainbow.com/large-passenger-aircraft-airplane-free-icon-1/
