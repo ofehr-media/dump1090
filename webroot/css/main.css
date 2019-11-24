@@ -1,0 +1,44 @@
+.page {
+	position: absolute;
+	height: 100%;
+	width: 100%;
+	margin: auto;
+	padding: 0px;
+	font-family: Verdana;
+	font-size: 14px;
+	}
+	      
+.map_area {
+	position: relative;
+	float: left;
+	height: 100%;
+	width:  75%;
+	background-color: #fedcba;
+	margin: 2px;
+	padding: 2px;
+	}
+	
+.info_area {
+	position: relative;
+	float: left;
+	height: 100%;
+	min-width: 21%;
+	max-width: 23%;
+	background-color: #abcdef;
+	margin: 2px;
+	margin-left: 4px;
+	margin-right: 4px;
+	padding-left: 4px;
+	padding-right: 4px;
+	}
+
+#plane_detail {
+	font-family: sans-serif;
+	font-size: 14px;
+}
+
+#map_canvas {
+	height: 100%; 
+	width: 100%;
+	}
+   
